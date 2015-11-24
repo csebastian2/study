@@ -1,0 +1,3 @@
+[submodule "study-guide"]
+	path = study-guide
+	url = https://github.com/zstrybnik/study-guide
