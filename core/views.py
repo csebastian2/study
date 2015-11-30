@@ -20,3 +20,7 @@ class DashboardView(View):
 
     def get(self, request):
         return render(request, 'core/dashboard.html')
+
+
+class AboutView(TemplateView):
+    template_name = 'core/about.html'
