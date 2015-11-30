@@ -105,6 +105,7 @@ INSTALLED_APPS = (
     # 3rd applications
     'social.apps.django_app.default',
     'djcelery',
+    'django_markdown',
 )
 
 MIDDLEWARE_CLASSES = (
