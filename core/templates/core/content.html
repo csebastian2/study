@@ -39,6 +39,9 @@
                                             <li><a href="#">{% trans "Profile" %}</a></li>
                                             <li><a href="#">{% trans "Settings" %}</a></li>
                                             <li class="divider"></li>
+                                            {% if user.is_staff %}
+                                                <li><a href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a></li>
+                                            {% endif %}
                                             <li><a href="{% url 'user:logout' %}">{% trans "Logout" %}</a></li>
                                         </ul>
                                     </div>
