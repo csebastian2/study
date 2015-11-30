@@ -1,0 +1,71 @@
+#site-content.page.page-core-index {
+  #sections {
+    .section-hello {
+      h1 {
+        font-size: 32pt;
+        font-weight: 500;
+        margin: 0 0 20px 0;
+        padding: 0 0 0 0;
+      }
+
+      h2 {
+        font-size: 28pt;
+        font-weight: 100;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+        line-height: 1.2em;
+      }
+
+      .scroll-down-and-find-out-more {
+        margin-top: 100px;
+
+        h3 {
+          font-size: 18pt;
+          font-weight: 200;
+          color: $color_dark_3;
+          margin: 0 0 25px 0;
+        }
+      }
+    }
+
+    .section-carousel {
+      .carousel {
+        ol.carousel-indicators {
+          clear: both;
+          position: relative;
+          bottom: auto;
+          margin-top: 10px;
+
+          li {
+            width: 16px;
+            height: 16px;
+            background: none;
+            border: 3px solid $color_light_5;
+            margin: 0 0 0 0;
+
+            &.active {
+              border-color: $color_primary_5;
+            }
+          }
+        }
+
+        .carousel-content {
+          color: $color_dark_6;
+          display: flex;
+          align-items: center;
+
+          h1 {
+            font-weight: 700;
+            color: $color_primary_6;
+            margin: 0 0 20px 0;
+          }
+
+          p {
+            line-height: 1.5em;
+            font-size: 13pt;
+          }
+        }
+      }
+    }
+  }
+}

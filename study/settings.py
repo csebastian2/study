@@ -37,6 +37,10 @@ CONFIG_DEFAULTS = {
     'allowed_hosts': [
         '*',
     ],
+    'graph_api': {
+        'appid': '',
+        'appsecret': '',
+    }
 }
 CONFIG_FILE = os.path.join(BASE_DIR, 'config.yml')
 CONFIG_ROOT = dict()
@@ -76,6 +80,7 @@ DEBUG = CONFIG_ROOT.get('debug_mode', False)
 ALLOWED_HOSTS = CONFIG_ROOT.get('allowed_hosts', [])
 ROOT_URLCONF = 'study.urls'
 WSGI_APPLICATION = 'study.wsgi.application'
+LOGIN_URL = '/user/login/'
 
 
 # ###########################################
@@ -85,12 +90,21 @@ WSGI_APPLICATION = 'study.wsgi.application'
 # ###########################################
 
 INSTALLED_APPS = (
+    # Internal applications
+    'core',
+    'user',
+
+    # Django applications
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 3rd applications
+    'social.apps.django_app.default',
+    'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -104,6 +118,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    # python-social-auth
+    'social.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+AUTH_USER_MODEL = 'user.UserProfile'
 
 # ###########################################
 # #+---------------------------------------+#
@@ -135,6 +157,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # python-social-auth
                 'social.apps.django_app.context_processors.backends',
                 'social.apps.django_app.context_processors.login_redirect',
             ],
@@ -142,7 +166,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 
 # ###########################################
@@ -262,13 +285,13 @@ LOGGING = {
                 'file',
             },
             'level': 'DEBUG',
-            'propagate': False,
+            'propagate': True,
         },
         'django.db.backends': {
             'handlers': {
                 'console',
             },
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': True,
         },
         '': {
@@ -288,7 +311,7 @@ LOGGING = {
 # #+---------------------------------------+#
 # ###########################################
 
-LANGUAGE_CODE = 'pl-pl'
+LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Warsaw'
 USE_I18N = True
 USE_L10N = True
@@ -302,4 +325,85 @@ USE_TZ = True
 # ###########################################
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static/core'),
+)
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# ###########################################
+# #+---------------------------------------+#
+# #|               Messages                |#
+# #+---------------------------------------+#
+# ###########################################
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+
+# ###########################################
+# #+---------------------------------------+#
+# #|                 Email                 |#
+# #+---------------------------------------+#
+# ###########################################
+
+_CONFIG_SMTP = CONFIG_ROOT.get('smtp')
+
+EMAIL_HOST = _CONFIG_SMTP.get('host')
+EMAIL_PORT = _CONFIG_SMTP.get('port')
+
+
+# ###########################################
+# #+---------------------------------------+#
+# #|          Python Social Auth           |#
+# #+---------------------------------------+#
+# ###########################################
+
+_CONFIG_GRAPH = CONFIG_ROOT.get('graph_api')
+
+SOCIAL_AUTH_USER_MODEL = 'user.UserProfile'
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
+SOCIAL_AUTH_FACEBOOK_KEY = _CONFIG_GRAPH.get('appid')
+SOCIAL_AUTH_FACEBOOK_SECRET = _CONFIG_GRAPH.get('appsecret')
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'locale': 'en_US',
+    'fields': 'id, email, age_range, first_name, last_name',
+}
+SOCIAL_AUTH_FACEBOOK_USERNAME_IS_FULL_EMAIL = True
+SOCIAL_AUTH_FACEBOOK_UUID_LENGTH = 16
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+
+    'user.pipelines.get_username',
+
+    'social.pipeline.social_auth.associate_by_email',
+
+    'user.pipelines.create_user',
+
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+
+    'user.pipelines.save_avatar',
+    'core.pipelines.debug',
+)
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/dashboard/'
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/user/login/error/'
+SOCIAL_AUTH_LOGIN_URL = '/user/login/'
+SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/user/settings/'
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/user/settings/'
+SOCIAL_AUTH_INACTIVE_USER_URL = '/user/login/inactive/'
+
+
+# ###########################################
+# #+---------------------------------------+#
+# #|          Python Social Auth           |#
+# #+---------------------------------------+#
+# ###########################################
+
+CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'

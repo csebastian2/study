@@ -1,0 +1,137 @@
+header#site-head {
+  background: $color_dark_5;
+  min-height: 44px;
+  padding: 20px 0 20px 0;
+  margin: 0 0 0 0;
+
+  .side-left,
+  .side-center,
+  .side-right {
+    line-height: 44px;
+  }
+
+  .side-left {
+    .notifications-button {
+      display: inline-block;
+      background: $color_primary_4;
+      color: $color_light_0;
+      height: 33px;
+      width: auto;
+      clear: both;
+      position: relative;
+      vertical-align: middle;
+
+      .number {
+        display: inline-block;
+        text-align: center;
+        float: left;
+        line-height: 33px;
+        background: $color_primary_6;
+        min-width: 33px;
+        height: 33px;
+        padding: 0 10px 0 10px;
+        border-radius: 0;
+        font-weight: 700;
+        font-size: 12pt;
+
+        i.fa {
+          font-size: 12pt;
+          padding: 0 7px 0 0;
+
+          @media (min-width: 768px) {
+            display: none;
+          }
+        }
+      }
+
+      .content {
+        float: left;
+        height: 33px;
+        line-height: 33px;
+        padding: 0 12px 0 12px;
+        font-size: 11pt;
+
+        @media (max-width: 767px) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .side-right {
+    .dropdown {
+      .dropdown-toggle {
+        span.hint--left {
+          &:before {
+            border-left-color: $color_dark_2;
+          }
+
+          &:after {
+            background-color: $color_dark_2;
+            color: $color_light_0;
+            text-shadow: none;
+            box-shadow: none;
+          }
+        }
+      }
+
+      ul.dropdown-menu {
+        right: 0;
+        left: auto;
+        background: $color_primary_4;
+        border: none;
+        border-radius: 0;
+        margin-top: 20px;
+        padding: 5px 0 5px 0;
+        -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.12);
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,0.12);
+
+        li {
+          &.divider {
+            margin: 5px 0 5px 0;
+            background: $color_primary_2;
+          }
+
+          a {
+            padding: 12px 20px;
+            color: $color_light_0;
+            font-size: 11pt;
+            font-weight: 400;
+            text-align: center;
+
+            &:hover {
+              background: $color_primary_2;
+            }
+          }
+        }
+      }
+    }
+
+    ul.menu {
+      list-style-type: none;
+      float: right;
+      margin: 0 0 0 0;
+      padding: 0 0 0 0;
+
+      li {
+        display: inline-block;
+        line-height: 44px;
+        margin: 0 10px 0 10px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        a {
+          color: $color_light_2;
+          font-weight: 500;
+          text-decoration: none;
+
+          &:hover {
+            color: $color_primary_1;
+          }
+        }
+      }
+    }
+  }
+}

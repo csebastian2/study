@@ -1,0 +1,34 @@
+{% extends "core/content.html" %}
+{% load staticfiles i18n %}
+
+{% block site_title %}Dashboard - Study &laquo; {% trans "Organize your education" %}{% endblock %}
+
+{% block site_content %}
+    <div id="site-content" class="page page-padding page-core-dashboard">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="my-calendars">
+                        <h2 class="page-title">{% trans "My Calendars" %}</h2>
+                        <div id="my-calendars-grid" data-columns>
+                            <a href="#">
+                                <div class="calendar">
+                                    <span>Default</span>
+                                </div>
+                            </a>
+                            <a href="#">
+                                <div class="calendar">
+                                    <span><i class="fa fa-calendar"></i>{% trans "Create new..." %}</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block additional_scripts %}
+    <script type="application/javascript" src="{% static "js/salvattore.min.js" %}"></script>
+{% endblock %}

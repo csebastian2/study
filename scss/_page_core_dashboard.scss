@@ -1,0 +1,62 @@
+#site-content.page.page-core-dashboard {
+  #my-calendars {
+    #my-calendars-grid {
+      &[data-columns]::before {
+        @media screen and (max-width: 480px) {
+          content: '1 .column.size-1of1';
+        }
+
+        @media screen and (min-width: 481px) and (max-width: 767px) {
+          content: '2 .column.size-1of2';
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 979px) {
+          content: '3 .column.size-1of3';
+        }
+
+        @media screen and (min-width: 980px) {
+          content: '4 .column.size-1of4';
+        }
+      }
+
+      .column {
+        &:not(.size-1of1) {
+          padding-right: 20px;
+        }
+
+        .calendar {
+          @extend .disable-selection;
+
+          position: relative;
+          width: 100%;
+          height: 150px;
+          background: $color_light_3;
+          margin: 0 0 20px 0;
+          text-align: center;
+          line-height: 150px;
+          font-size: 18pt;
+          font-weight: bold;
+          color: $color_dark_6;
+          border-radius: 4px;
+
+          &:hover {
+            background: $color_primary_3;
+          }
+
+          span {
+            display: inline-block;
+            line-height: 1.25em;
+            vertical-align: middle;
+
+            i.fa {
+              clear: both;
+              display: block;
+              font-size: 48px;
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

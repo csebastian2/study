@@ -1,0 +1,21 @@
+/*
+Main SCSS file.
+This will be converted into CSS automatically.
+*/
+
+@import "variables";
+@import "base";
+
+@import "salvattore";
+
+@import "buttons";
+@import "panels";
+@import "forms";
+
+@import "header";
+@import "footer";
+@import "site_content";
+
+// Core
+@import "page_core_index";
+@import "page_core_dashboard";

@@ -1,0 +1,27 @@
+.panel {
+  margin-bottom: 25px;
+  border: 1px solid $color_light_3;
+  border-radius: 3px;
+
+  &.panel-default {
+    .panel-heading {
+      background: $color_light_0;
+
+      h3.panel-title {
+        font-size: 10pt;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 10px 15px 10px 15px;
+        text-align: center;
+      }
+    }
+
+    .panel-body {
+      padding: 20px 20px 20px 20px;
+    }
+
+    .panel-footer {
+      padding: 20px 20px 20px 20px;
+    }
+  }
+}

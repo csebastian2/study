@@ -1,0 +1,54 @@
+form {
+  .form-group {
+    margin: 0 0 20px 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    label.control-label {
+      font-size: 11pt;
+      font-weight: 400;
+      color: $color_dark_6;
+      margin: 0 0 5px 0;
+      padding: 0 0 0 0;
+    }
+
+    input[type='text'],
+    input[type='email'],
+    input[type='password'] {
+      border-radius: 2px;
+      background: $color_light_2;
+      padding: 0 10px 0 10px;
+      height: 38px;
+      font: 400 11pt/1em $font_content;
+    }
+
+    ul.errorlist {
+      margin: 0 0 5px 0;
+      padding: 0 0 0 0;
+      list-style-type: none;
+
+      li {
+        font-size: 11pt;
+        color: $color_bootstrap_danger;
+        font-weight: 500;
+      }
+    }
+  }
+
+  ul.errorlist.nonfield {
+    margin: 0 0 20px 0;
+    padding: 0 0 0 0;
+    list-style-type: none;
+
+    li {
+      padding: 12px 15px;
+      background: $color_light_0;
+      border-left: 4px solid $color_bootstrap_danger;
+      font-size: 11pt;
+      color: $color_dark_6;
+      line-height: 1.25em;
+    }
+  }
+}

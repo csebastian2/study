@@ -1,0 +1,43 @@
+.btn {
+  border-radius: 3px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 10px 10px;
+  font-size: 10pt;
+  font-weight: 700;
+
+  &.btn-xs {
+    padding: 3px 5px;
+    font-size: 8pt;
+  }
+
+  &.btn-lg {
+    padding: 13px 16px;
+    font-size: 12pt;
+  }
+
+  &.btn-primary {
+    background: $color_bootstrap_primary;
+    border: none;
+  }
+
+  &.btn-warning {
+    background: $color_bootstrap_warning;
+    border: none;
+  }
+
+  &.btn-danger {
+    background: $color_bootstrap_danger;
+    border: none;
+  }
+
+  &.btn-info {
+    background: $color_bootstrap_info;
+    border: none;
+  }
+
+  &.btn-default {
+    background: $color_bootstrap_default;
+    border: none;
+  }
+}

@@ -1,0 +1,79 @@
+{% extends "core/base.html" %}
+{% load staticfiles i18n %}
+
+{% block body_section %}
+    <div id="wrapper">
+        <div id="content-wrapper">
+            <header id="site-head">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="side-left">
+                                {% if user.is_authenticated %}
+                                    <a href="#">
+                                        <div class="notifications-button">
+                                            <div class="number"><i class="fa fa-globe"></i>0</div>
+                                            <div class="content">
+                                                {% trans "Notifications" %}
+                                            </div>
+                                        </div>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                            <div class="side-center">
+                                <a href="{% url 'core:index' %}">
+                                    <img class="logo" width="94" height="45" src="{% static "images/logo.svg" %}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 text-right">
+                            <div class="side-right">
+                                {% if user.is_authenticated %}
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" id="userdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="hint--left hint--rounded hint--bounce" data-hint="{% trans "Profile" %}"><img width="44" height="44" src="{% if user.avatar.picture %}{{ user.avatar.picture.url }}{% else %}{% static "images/user_avatar_default.jpg" %}{% endif %}" class="img-circle"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="userdropdown">
+                                            <li><a href="#">{% trans "Profile" %}</a></li>
+                                            <li><a href="#">{% trans "Settings" %}</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="{% url 'user:logout' %}">{% trans "Logout" %}</a></li>
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <ul class="menu">
+                                        <li role="presentation"><a href="{% url 'user:login' %}">{% trans "Sign in" %}</a></li>
+                                        <li role="presentation"><a href="{% url 'user:register' %}">{% trans "Sign up" %}</a></li>
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            {% block site_content %}{% endblock %}
+        </div>
+        <footer id="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="side-left">
+                            Copyright &copy; 2015 <a target="_blank" href="https://github.com/tkajtoch/study/AUTHORS.md">Study Project Authors and Contributors</a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="side-right">
+                            <ul>
+                                <li><a href="#">{% trans "About" %}</a></li>
+                                <li><a target="_blank" href="https://github.com/tkajtoch/study/">{% trans "GitHub" %}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+{% endblock %}

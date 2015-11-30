@@ -1,0 +1,58 @@
+{% load staticfiles i18n %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/hint.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/main.min.css" %}" type="text/css">
+        {% block head_section %}{% endblock %}
+        <title>{% block site_title %}Study &laquo; {% trans "Organize your education" %}{% endblock %}</title>
+        <script>
+            WebFontConfig = {
+                google: {
+                    families: [
+                        'Source Serif Pro:400,700:latin-ext',
+                        'Source Sans Pro:200,400,600,700:latin-ext',
+                    ]
+                },
+                timeout: 3000,
+            };
+
+            (function(d) {
+            var wf = d.createElement('script'), s = d.scripts[0];
+            wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+            s.parentNode.insertBefore(wf, s);
+            })(document);
+    </script>
+    </head>
+    <body>
+        {% block body_section %}{% endblock %}
+
+        <script type="application/javascript" src="{% static "js/jquery-1.11.3.min.js" %}"></script>
+        <script type="application/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+        <script type="application/javascript" src="{% static "js/bootstrap-notify.min.js" %}"></script>
+        {% if messages %}
+            <script type="application/javascript">
+                {% for message in messages %}
+                    $.notify({
+                        message: "{{ message }}"
+                    },{
+                        type: "{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}",
+                        delay: 3000,
+                        timer: 1000,
+                        placement: {
+                            from: "top",
+                            align: "left",
+                        }
+                    });
+                {% endfor %}
+            </script>
+        {% endif %}
+        {% block additional_scripts %}{% endblock %}
+    </body>
+</html>

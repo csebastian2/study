@@ -1,0 +1,44 @@
+html, body {
+  @extend .font-smoothing;
+  font: 400 12pt/1em $font_content;
+  color: $color_dark_6;
+  background: $color_light_1;
+  min-width: 320px !important;
+  height: 100%;
+}
+
+.font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.disable-selection {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#wrapper {
+  min-height: 100%;
+  position: relative;
+}
+
+#content-wrapper {
+  padding-bottom: 60px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none !important;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px $color_light_2 inset;
+  background-color: $color_light_2 !important;
+  color: $color_light_2 !important;
+}
