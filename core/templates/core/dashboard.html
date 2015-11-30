@@ -11,11 +11,13 @@
                     <div id="my-calendars">
                         <h2 class="page-title">{% trans "My Calendars" %}</h2>
                         <div id="my-calendars-grid" data-columns>
-                            <a href="#">
-                                <div class="calendar">
-                                    <span>Default</span>
-                                </div>
-                            </a>
+                            {% for calendar in calendars %}
+                                <a href="#">
+                                    <div class="calendar">
+                                        <span>{{ calendar.name }}</span>
+                                    </div>
+                                </a>
+                            {% endfor %}
                             <a href="#">
                                 <div class="calendar">
                                     <span><i class="fa fa-calendar"></i>{% trans "Create new..." %}</span>

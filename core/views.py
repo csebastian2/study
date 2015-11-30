@@ -3,6 +3,7 @@ from django.views.generic import View, TemplateView
 from django.http.response import Http404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from cal import models as cal_models
 
 
 class IndexView(View):
@@ -19,7 +20,9 @@ class DashboardView(View):
         return super(DashboardView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request):
-        return render(request, 'core/dashboard.html')
+        calendars = cal_models.Calendar.objects.filter(author=request.user)
+
+        return render(request, 'core/dashboard.html', {'calendars': calendars})
 
 
 class AboutView(TemplateView):

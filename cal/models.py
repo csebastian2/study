@@ -88,5 +88,5 @@ class Task(models.Model):
     )
 
     class Meta:
-        verbose_name_plural = _("Entries")
-        verbose_name = _("Entry")
+        verbose_name_plural = _("Tasks")
+        verbose_name = _("Task")
