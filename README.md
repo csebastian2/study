@@ -13,6 +13,13 @@ You can work alone or in the group - add your classmates and you will never forg
 The code is not fully production quality - most of it was written on extreme programming sessions.
 
 
+Submodules
+----------
+
+Study is contributed with other people who can add own functions.
+These functions are separated to microservices bacause they are written in other languages.
+
+
 TODO
 ----
 
