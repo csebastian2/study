@@ -9,6 +9,10 @@ You can work alone or in the group - add your classmates and you will never forg
 
 **Check it live at [studyapp.pw](https://studyapp.pw/)**
 
+**Note:** Project made for educational purposes only, external library testing at real environment and to show Django awesomeness.
+The code is not fully production quality - most of it was written on extreme programming sessions.
+
+
 TODO
 ----
 
