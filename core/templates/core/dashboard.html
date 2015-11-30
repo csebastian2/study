@@ -12,13 +12,13 @@
                         <h2 class="page-title">{% trans "My Calendars" %}</h2>
                         <div id="my-calendars-grid" data-columns>
                             {% for calendar in calendars %}
-                                <a href="#">
+                                <a href="{% url 'calendar:calendar' calendar.pk %}">
                                     <div class="calendar">
                                         <span>{{ calendar.name }}</span>
                                     </div>
                                 </a>
                             {% endfor %}
-                            <a href="#">
+                            <a href="{% url 'calendar:new' %}">
                                 <div class="calendar">
                                     <span><i class="fa fa-calendar"></i>{% trans "Create new..." %}</span>
                                 </div>

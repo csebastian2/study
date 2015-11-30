@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from user.models import UserProfile
+from . import managers
 
 
 class Calendar(models.Model):
@@ -31,6 +32,8 @@ class Calendar(models.Model):
         related_name='members',
         related_query_name='members',
     )
+
+    objects = managers.CalendarManager()
 
     class Meta:
         verbose_name = _("Calendar")

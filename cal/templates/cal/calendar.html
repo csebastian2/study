@@ -1,0 +1,49 @@
+{% extends "core/content.html" %}
+{% load staticfiles i18n %}
+
+{% block site_title %}{{ calendar.name }} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
+
+{% block site_content %}
+    <div id="site-content" class="page page-padding page-calendar-calendar">
+        <div class="container">
+            <h2 class="page-title">{{ calendar.name }}</h2>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-9">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <a href="#" class="btn btn-xs btn-default"><i class="fa fa-arrow-left"></i></a>
+                                </div>
+                                <div class="col-xs-6">
+                                    <h3 class="panel-title">{% trans "Calendar - Weekly view" %}</h3>
+                                </div>
+                                <div class="col-xs-3 text-right">
+                                    addd
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            asd
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-3">
+                    <div id="sidebar">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{% trans "Members" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="members">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

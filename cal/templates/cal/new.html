@@ -1,0 +1,41 @@
+{% extends "core/content.html" %}
+{% load staticfiles i18n %}
+
+{% block site_title %}{% trans "New" %} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
+
+{% block site_content %}
+    <div id="site-content" class="page page-padding page-calendar-new">
+        <div class="container">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <form action="{% url 'calendar:new' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{% trans "New calendar" %}</h3>
+                        </div>
+                        <div class="panel-body">
+                            {% for field in form %}
+                                <div class="form-group">
+                                    <label for="field.id_for_label" class="control-label">{{ field.label }}</label>
+                                    {{ field.errors }}
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <a href="{% url 'core:dashboard' %}" class="btn btn-default">{% trans "Back" %}</a>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <button type="submit" class="btn btn-success">{% trans "Add calendar" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

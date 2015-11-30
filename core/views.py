@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
-from django.http.response import Http404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.db.models import Q
 from cal import models as cal_models
 
 
@@ -20,7 +20,7 @@ class DashboardView(View):
         return super(DashboardView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request):
-        calendars = cal_models.Calendar.objects.filter(author=request.user)
+        calendars = cal_models.Calendar.objects.filter(Q(members=request.user))
 
         return render(request, 'core/dashboard.html', {'calendars': calendars})
 

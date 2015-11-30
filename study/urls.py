@@ -9,6 +9,9 @@ urlpatterns = [
     # User application
     url(r'^user/', include('user.urls', namespace='user')),
 
+    # Cal application
+    url(r'^calendar/', include('cal.urls', namespace='calendar')),
+
     # Django admin panel
     url(r'^admin/', include(admin.site.urls)),
 
