@@ -7,10 +7,27 @@ Study
 Study is a service that helps you with organizing your education.
 You can work alone or in the group - add your classmates and you will never forget about tomorrow's exam!
 
-**Check it live at [studyapp.pw](https://studyapp.pw/)**
+**Check it live at [studyapp.pw](http://studyapp.pw/)**
 
-**Note:** Project made for educational purposes only, external library testing at real environment and to show Django awesomeness.
-The code is not fully production quality - most of it was written on extreme programming sessions.
+
+Used libraries and 3rd party technologies
+-----------------------------------
+
+Study is mainly written in Django.
+
+**Software and languages used:**
+
+- Python 3.4
+- Django 1.8.x
+- PostgreSQL
+- RedisIO
+- RabbitMQ
+- JavaScript
+- HTML5
+- CSS3
+- pip3
+
+... and many django application modules. Check full list [here](https://github.com/csebastian2/study/blob/master/requirements/apps.txt)
 
 
 Submodules
