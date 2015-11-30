@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     # Internal applications
     'core',
     'user',
+    'cal',
 
     # Django applications
     'django.contrib.admin',
