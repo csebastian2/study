@@ -3,6 +3,10 @@
 
 {% block site_title %}{{ calendar.name }} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
 
+{% block head_section %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/fullcalendar.min.css" %}">
+{% endblock %}
+
 {% block site_content %}
     <div id="site-content" class="page page-padding page-calendar-calendar">
         <div class="container">
@@ -13,19 +17,11 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-3">
-                                    <a href="#" class="btn btn-xs btn-default"><i class="fa fa-arrow-left"></i></a>
-                                </div>
-                                <div class="col-xs-6">
-                                    <h3 class="panel-title">{% trans "Calendar - Weekly view" %}</h3>
-                                </div>
-                                <div class="col-xs-3 text-right">
-                                    addd
-                                </div>
+                                <h3 class="panel-title">{% trans "Calendar - Weekly view" %}</h3>
                             </div>
                         </div>
                         <div class="panel-body">
-                            asd
+                            <div id="calendar"></div>
                         </div>
                     </div>
                 </div>
@@ -33,12 +29,26 @@
                     <div id="sidebar">
                         <div class="panel panel-default">
                             <div class="panel-heading">
+                                <h3 class="panel-title">{% trans "Manage" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <a href="{% url 'calendar:addtask' calendar.pk %}" class="btn btn-success btn-block">{% trans "Add task" %}</a>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
                                 <h3 class="panel-title">{% trans "Members" %}</h3>
                             </div>
                             <div class="panel-body">
-                                <div id="members">
-
+                                <div class="clearfix" id="members-grid" data-columns>
+                                    {% for member in calendar.members.all %}
+                                        <div class="square">
+                                            <img class="img-rounded" src="{% if member.avatar %}{{ member.avatar.picture.url }}{% else %}{% static "images/user_avatar_default.jpg" %}{% endif %}">
+                                        </div>
+                                    {% endfor %}
                                 </div>
+                                <a href="{% url 'calendar:addmember' calendar.pk %}" class="btn btn-default btn-sm btn-block">{% trans "Add member" %}</a>
                             </div>
                         </div>
                     </div>
@@ -46,4 +56,53 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block additional_scripts %}
+    <script type="application/javascript" src="{% static "js/salvattore.min.js" %}"></script>
+    <script type="application/javascript" src="{% static "js/moment.min.js" %}"></script>
+    <script type="application/javascript" src="{% static "js/pl.js" %}"></script>
+    <script type="application/javascript" src="{% static "js/fullcalendar.min.js" %}"></script>
+    <script type="application/javascript">
+        $(document).ready(function() {
+            $("#calendar").fullCalendar({
+                header: {
+                    left: 'prev',
+                    center: 'title',
+                    right: 'next'
+                },
+                lang: 'pl',
+                editable: false,
+                eventLimit: false,
+                defaultView: 'agendaWeek',
+                height: 400,
+                selectable: false,
+                timezone: 'local',
+                firstHour: 6,
+                slotMinutes: 30,
+                defaultEventMinutes: 45,
+                axisFormat: 'HH:mm',
+                allDaySlot: false,
+                eventSources: [
+                    {
+                        url: '/calendar/{{ calendar.pk }}/json/tasks',
+                        type: 'GET',
+                        error: function() {
+                            $.notify({
+                                message: "Nie udało się pobrać zawartości kalendarza. Spróbuj odświeżyć stronę."
+                            },{
+                                type: "danger",
+                                delay: 3000,
+                                timer: 1000,
+                                placement: {
+                                    from: "top",
+                                    align: "left",
+                                }
+                            });
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
 {% endblock %}

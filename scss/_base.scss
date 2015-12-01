@@ -42,3 +42,14 @@ input:-webkit-autofill {
   background-color: $color_light_2 !important;
   color: $color_light_2 !important;
 }
+
+.square {
+  padding-bottom: 100%;
+  overflow: hidden;
+  position: relative;
+  
+  img {
+    position: absolute;
+    width: 100%;
+  }
+}

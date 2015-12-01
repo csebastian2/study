@@ -1,0 +1,11 @@
+table.table.table-clear {
+  margin: 0 0 0 0;
+
+  tbody {
+    tr {
+      th, td {
+        border-top: none;
+      }
+    }
+  }
+}

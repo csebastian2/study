@@ -1,0 +1,69 @@
+{% extends "core/content.html" %}
+{% load staticfiles i18n %}
+
+{% block site_title %}{{ task.name }} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
+
+{% block site_content %}
+    <div id="site-content" class="page page-padding page-calendar-task">
+        <div class="container">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ task.name }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-clear">
+                            <tbody>
+                                <tr>
+                                    <th class="col-xs-3">{% trans "Name" %}</th>
+                                    <td class="col-xs-9">{{ task.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{% trans "Start date" %}</th>
+                                    <td>{{ task.date_start|date:"d E Y, H:m" }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{% trans "End date" %}</th>
+                                    <td>{{ task.date_end|date:"d E Y, H:m" }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="{% url 'calendar:calendar' calendar.pk %}" class="btn btn-sm btn-default">{% trans "Back" %}</a>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <form id="task-delete" action="#">
+                                    {% csrf_token %}
+                                    <button type="submit" href="#" class="btn btn-sm btn-danger">{% trans "Delete" %}</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block additional_scripts %}
+    <script type="application/javascript">
+        $(document).ready(function() {
+            $("form#task-delete").submit(function(e) {
+                e.preventDefault();
+
+                $(this).find("input[type=submit]").addClass('btn-disabled');
+
+                $.ajax({
+                    url: "{% url 'calendar:task' calendar.pk task.pk %}",
+                    type: 'DELETE',
+                    success: function() {
+                        document.location.href = "{% url 'calendar:calendar' calendar.pk %}";
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

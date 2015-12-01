@@ -47,6 +47,8 @@ class Task(models.Model):
         verbose_name=_("Calendar"),
         blank=False,
         null=False,
+        related_name='tasks',
+        related_query_name='task',
     )
     author = models.ForeignKey(
         UserProfile,
@@ -89,6 +91,8 @@ class Task(models.Model):
         blank=False,
         null=False,
     )
+
+    objects = managers.TaskManager()
 
     class Meta:
         verbose_name_plural = _("Tasks")

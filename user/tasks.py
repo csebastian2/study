@@ -8,7 +8,7 @@ from user.models import UserAvatar
 def save_avatar(user_id, facebook_user_id, facebook_user_access_token, check=True, time=None):
     avatar, _ = UserAvatar.objects.get_or_create(user_id=user_id)
 
-    if avatar.picture or not avatar.can_update(time):
+    if check and (avatar.picture or not avatar.can_update(time)):
         return
 
     url = 'https://graph.facebook.com/{id}/picture'.format(id=facebook_user_id)

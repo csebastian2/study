@@ -1,0 +1,88 @@
+{% extends "core/content.html" %}
+{% load staticfiles i18n %}
+
+{% block site_title %}{% trans "Settings" %} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
+
+{% block site_content %}
+    <div id="site-content" class="page page-padding page-user-settings">
+        <div class="container">
+            <h2 class="page-title">{% trans "Settings" %}</h2>
+            <div id="settings-grid" data-columns>
+                <div class="panel panel-default panel-profile">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Profile" %}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-clear">
+                            <tbody>
+                                <tr>
+                                    <th class="col-xs-4">{% trans "Display name" %}</th>
+                                    <td class="col-xs-8 text-right">{{ user.username }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="col-xs-4">{% trans "Email address" %}</th>
+                                    <td class="col-xs-8 text-right">{{ user.email }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-default panel-change-password">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Change password" %}</h3>
+                    </div>
+                    <form action="{% url 'user:settings' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="panel-body">
+                            {% for field in passwordchange_form %}
+                                <div class="form-group">
+                                    <label for="field.id_for_label" class="control-label">{{ field.label }}</label>
+                                    {{ field.errors }}
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="panel-footer">
+                             <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <button type="submit" class="btn btn-success" name="passwordchange">{% trans "Change password" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel panel-default panel-avatar">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Avatar" %}</h3>
+                    </div>
+                    <form action="{% url 'user:settings' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="panel-body">
+                            {% for field in avatarchange_form %}
+                                <div class="form-group">
+                                    <label for="field.id_for_label" class="control-label">{{ field.label }}</label>
+                                    {{ field.errors }}
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="panel-footer">
+                             <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="submit" class="btn btn-primary" name="avatargetfromfacebook">{% trans "Get from Facebook" %}</button>
+                                </div>
+                                 <div class="col-xs-6 text-right">
+                                    <button type="submit" class="btn btn-success" name="avatarchange">{% trans "Save" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block additional_scripts %}
+    <script type="application/javascript" src="{% static "js/salvattore.min.js" %}"></script>
+{% endblock %}

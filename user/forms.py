@@ -1,8 +1,13 @@
 from django import forms
 from django.core import validators
 from django.contrib.auth import authenticate
+from django.utils import timezone
 from django.db import IntegrityError
-from django.contrib.auth.forms import AuthenticationForm as DjangoAuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import (
+    AuthenticationForm as DjangoAuthenticationForm,
+    SetPasswordForm as DjangoSetPasswordForm,
+    PasswordChangeForm as DjangoPasswordChangeForm,
+)
 from django.utils.translation import ugettext_lazy as _
 from . import models
 
@@ -12,6 +17,21 @@ class AuthenticationForm(DjangoAuthenticationForm):
         super(AuthenticationForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget = forms.EmailInput(attrs={'class': 'form-control', 'placeholder': _("Email address")})
         self.fields['password'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _("Password")})
+
+
+class PasswordChangeForm(DjangoPasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(PasswordChangeForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _("Old password")})
+        self.fields['new_password1'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _("New password")})
+        self.fields['new_password2'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _("Repeat new password")})
+
+
+class SetPasswordForm(DjangoSetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(SetPasswordForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _("New password")})
+        self.fields['new_password2'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _("Repeat new password")})
 
 
 class RegistrationForm(forms.Form):
@@ -85,3 +105,42 @@ class RegistrationForm(forms.Form):
             )
 
         return retype_password
+
+
+class AvatarChangeForm(forms.Form):
+    avatar = forms.ImageField(
+        label=_("Avatar"),
+    )
+
+    error_messages = {
+        'image_too_large': _("Maximum image size is 100KB")
+    }
+    AVATAR_MAX_FILESIZE = 102400
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        self.avatar_cache = None
+        super(AvatarChangeForm, self).__init__(*args, **kwargs)
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar')
+
+        if avatar:
+            if avatar._size > AvatarChangeForm.AVATAR_MAX_FILESIZE:
+                raise forms.ValidationError(self.error_messages['image_too_large'],
+                                            code='image_too_large')
+
+            self.avatar_cache = avatar
+
+        return self.cleaned_data
+
+    def save(self, commit=True):
+        avatar, _ = models.UserAvatar.objects.get_or_create(user=self.user)
+
+        avatar.picture = self.avatar_cache
+        avatar.last_update = timezone.now()
+
+        if commit:
+            avatar.save()
+
+        return avatar

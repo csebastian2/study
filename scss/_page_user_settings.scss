@@ -1,0 +1,24 @@
+#site-content.page.page-user-settings {
+  #settings-grid {
+    &[data-columns]::before {
+      @media screen and (max-width: 991px) {
+        content: '1 .column.size-1of1';
+      }
+
+      @media screen and (min-width: 992px) {
+        content: '2 .column.size-1of2';
+      }
+    }
+
+    .column.size-1of2:not(:last-child) {
+      padding-right: 20px;
+    }
+
+    .panel-avatar {
+      img.avatar {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

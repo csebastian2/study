@@ -1,0 +1,33 @@
+#site-content.page.page-calendar-calendar {
+  #sidebar {
+    #members-grid {
+      margin: 0 0 15px 0;
+
+      &[data-columns]::before {
+        @media screen and (max-width: 480px) {
+          content: '3 .column.size-1of3';
+        }
+
+        @media screen and (min-width: 481px) and (max-width: 767px) {
+          content: '4 .column.size-1of4';
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 991px) {
+          content: '5 .column.size-1of5';
+        }
+
+        @media screen and (min-width: 992px) {
+          content: '4 .column.size-1of4';
+        }
+      }
+
+      .column {
+        padding: 0 5px 0 0;
+
+        .square {
+          margin: 0 0 5px 0;
+        }
+      }
+    }
+  }
+}

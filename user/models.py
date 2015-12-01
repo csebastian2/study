@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
@@ -5,7 +6,9 @@ from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.sessions.models import Session
 from django.utils import timezone
+from django.conf import settings
 from . import managers
+from . import storage
 
 
 def add_logged_in_log(sender, user, **kwargs):
@@ -141,8 +144,12 @@ class UserSession(models.Model):
         verbose_name_plural = _("User session references")
 
     def delete_user_session(self):
-        session = Session.objects.filter(session_key=self.session_key).delete()
+        Session.objects.filter(session_key=self.session_key).delete()
         self.delete()
+
+
+def avatar_path(instance, filename):
+    return 'user/avatars/%i.jpg' % instance.pk
 
 
 class UserAvatar(models.Model):
@@ -159,7 +166,8 @@ class UserAvatar(models.Model):
         default=None,
         blank=True,
         null=True,
-        upload_to='user/avatars/',
+        storage=storage.OverwriteStorage(),
+        upload_to=avatar_path,
     )
     last_update = models.DateTimeField(
         _("Last update"),
