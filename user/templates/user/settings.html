@@ -78,6 +78,50 @@
                         </div>
                     </form>
                 </div>
+                <div class="panel panel-default panel-avatar">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Account history" %}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% if log_entries %}
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-xs-7">{% trans "Message" %}</th>
+                                            <th class="col-xs-5">{% trans "Date" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for entry in log_entries %}
+                                            <tr>
+                                                <td>{{ entry.message }}</td>
+                                                <td>{{ entry.date_added }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                {% trans "No logs found." %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <form action="{% url 'user:settings' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" name="clearlogs" class="btn btn-danger">{% trans "Clear" %}</button>
+                                </form>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <a href="{% url 'user:logs' %}" class="btn btn-default">{% trans "View all" %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

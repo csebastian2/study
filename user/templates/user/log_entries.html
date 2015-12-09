@@ -1,0 +1,37 @@
+{% extends "core/content.html" %}
+{% load staticfiles i18n %}
+
+{% block site_title %}{% trans "Log entries" %} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
+
+{% block site_content %}
+    <div id="site-content" class="page page-padding page-user-log-entries">
+        <div class="container">
+            <h2 class="page-title">{% trans "Log entries" %}</h2>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-8">{% trans "Message" %}</th>
+                                    <th class="col-xs-3">{% trans "Date" %}</th>
+                                    <th class="col-xs-1 text-right">{% trans "Type" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in log_entries %}
+                                    <tr>
+                                        <td>{{ entry.message }}</td>
+                                        <td>{{ entry.date_added }}</td>
+                                        <td class="text-right">{{ entry.get_type_display }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="{% url 'user:settings' %}" class="btn btn-primary btn-lg"><i class="fa fa-long-arrow-left"></i> {% trans "Back" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

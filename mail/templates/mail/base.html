@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}Study &laquo; Organize your education{% endblock %}</title>
+</head>
+<body bgcolor="#EEEEEE" style="background: #EEEEEE; margin: 0; padding: 40px 0 40px 0; font-size: 11pt; font-family: Arial, Sans, Serif; font-weight: 400;">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
+        <tr>
+            <td align="center" bgcolor="#10b478" style="padding: 15px 0 15px 0; border-radius: 4px 4px 0 0;">
+                <a href="http://studyapp.pw/"><img src="http://studyapp.pw/static/images/logo.svg" height="42" /></a>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor="#FFFFFF" style="padding: 10px 20px 10px 20px; border-radius: 0 0 4px 4px; line-height: 1.4em; font-size: 13pt;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        {% block content %}{% endblock %}
+                    </tr>
+                    <tr>
+                        <td>
+                            <hr style="border: none; border-bottom: 1px solid #eaeaea;">
+                            <div style="font-size: 10pt; color: #666;">
+                                {% block footer %}
+                                    <p>Ta wiadomość została wysłana automatycznie przez serwis <a style="color: #10b478; font-weight: bold; text-decoration: none;" href="http://studyapp.pw/">Study</a>. Prosimy na nią nie odpowiadać. Jeśli ta wiadomość dotarła do Ciebie przez pomyłkę, <a style="color: #10b478; font-weight: bold; text-decoration: none;" href="mailto://kontakt@studyapp.pw">powiadom nas o tym.</a></p>
+                                {% endblock %}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
