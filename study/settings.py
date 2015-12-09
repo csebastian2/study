@@ -45,6 +45,13 @@ CONFIG_ROOT = dict()
 
 
 def load_config(config_file=None):
+    """
+    Load the configuration from a file
+
+    :param config_file: Path to a YAML configuration file.
+                        If not specified default path from `settings.CONFIG_FILE` will be used
+    :type config_file: str
+    """
     global CONFIG_ROOT
     config_file = config_file or CONFIG_FILE
 
@@ -53,6 +60,15 @@ def load_config(config_file=None):
 
 
 def save_config(destination_file=None, defaults=False):
+    """
+    Save the configuration into a YAML configuration file.
+
+    :param destination_file: Path to a YAML configuration file where configuration will be saved.
+        If not specified default path from `settings.CONFIG_FILE` will be used.
+    :type destination_file: str
+    :param defaults: If True the default configuration dictionary from `settings.CONFIG_DEFAULTS`
+        will be saved instead of real configuration dictionary.
+    """
     destination_file = destination_file or CONFIG_FILE
     config = CONFIG_ROOT if not defaults else CONFIG_DEFAULTS
 
@@ -88,12 +104,18 @@ LOGIN_URL = '/user/login/'
 # ###########################################
 
 INSTALLED_APPS = (
-    # Internal applications
+    # ---- Study internal applications ----
+
+    # Core application
     'core',
+
+    # User application
     'user',
+
+    # Cal application
     'cal',
 
-    # Django applications
+    # ---- Django applications ----
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -101,9 +123,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 3rd applications
+    # ---- Third party applications ----
+
+    # python-social-auth
     'social.apps.django_app.default',
+
+    # django-celery
     'djcelery',
+
+    # django-markdown
     'django_markdown',
 )
 
@@ -118,10 +146,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
+# List of the backends used to perform user authentication
 AUTHENTICATION_BACKENDS = (
-    # python-social-auth
+    # python-social-auth backends
     'social.backends.facebook.FacebookOAuth2',
 
+    # Django backend based on default user model
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -133,7 +163,14 @@ AUTH_USER_MODEL = 'user.UserProfile'
 # #+---------------------------------------+#
 # ###########################################
 
+
 def get_template_loaders():
+    """
+    Get the list of template loaders depending if debugging mode is enabled.
+
+    :returns: The list of template loaders
+    :rtype: list
+    """
     if DEBUG:
         return [
             'django.template.loaders.filesystem.Loader',
