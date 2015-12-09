@@ -21,6 +21,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             username=username,
             email=email,
+            registration_date=now,
             **kwargs
         )
         user.set_password(password)
