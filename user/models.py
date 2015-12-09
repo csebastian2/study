@@ -22,8 +22,6 @@ def add_logged_in_log(sender, user, **kwargs):
 user_logged_in.connect(add_logged_in_log)
 
 
-
-
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """
     UserProfile class.
