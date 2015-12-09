@@ -89,6 +89,7 @@ else:
 # #+---------------------------------------+#
 # ###########################################
 
+SITE_URL = CONFIG_ROOT.get('site_url')
 SECRET_KEY = CONFIG_ROOT.get('secret_key')
 DEBUG = CONFIG_ROOT.get('debug_mode', False)
 ALLOWED_HOSTS = CONFIG_ROOT.get('allowed_hosts', [])
