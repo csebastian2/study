@@ -10,11 +10,25 @@ from . import storage
 
 
 def add_logged_in_log(sender, user, **kwargs):
+    """
+    Add an log entry that user has been logged in.
+
+    :param sender: Signal sender
+    :param user: User profile instance
+    :param kwargs: Additional kwargs
+    """
+
     user.add_log_entry(_("User has been successfully logged in."))
 user_logged_in.connect(add_logged_in_log)
 
 
+
+
 class UserProfile(AbstractBaseUser, PermissionsMixin):
+    """
+    UserProfile class.
+    """
+
     email = models.EmailField(
         _("Email"),
         unique=True,
@@ -66,17 +80,41 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _("User profiles")
 
     def get_short_name(self):
+        """
+        Get the short name of the user.
+
+        :return: User's short name
+        """
+
         return self.username
 
     def get_full_name(self):
+        """
+        Get the full name of the user.
+
+        :return: User's full name
+        """
+
         return self.username
 
     def add_log_entry(self, message, **kwargs):
+        """
+        Add an log entry to the user.
+
+        :param message: Log message
+        :param kwargs: LogEntry additional kwargs
+        :return: LogEntry instance
+        """
+
         log_entry = UserLogEntry.objects.add_entry(self, message, **kwargs)
         return log_entry
 
 
 class UserLogEntry(models.Model):
+    """
+    UserLogEntry class.
+    """
+
     user = models.ForeignKey(
         UserProfile,
         verbose_name=_("User"),
@@ -122,6 +160,10 @@ class UserLogEntry(models.Model):
 
 
 class UserSession(models.Model):
+    """
+    UserSession class.
+    """
+
     user = models.ForeignKey(
         UserProfile,
         verbose_name=_("User"),
@@ -142,15 +184,29 @@ class UserSession(models.Model):
         verbose_name_plural = _("User session references")
 
     def delete_user_session(self):
+        """
+        Delete the user's session.
+        """
         Session.objects.filter(session_key=self.session_key).delete()
         self.delete()
 
 
 def avatar_path(instance, filename):
+    """
+    Get the path to the avatar.
+
+    :param instance: An UserAvatar instance
+    :param filename: A filename
+    :return: A patch to the avatar
+    """
     return 'user/avatars/%i.jpg' % instance.pk
 
 
 class UserAvatar(models.Model):
+    """
+    UserAvatar class.
+    """
+
     user = models.OneToOneField(
         UserProfile,
         verbose_name=_("User"),
@@ -179,6 +235,13 @@ class UserAvatar(models.Model):
         verbose_name_plural = _("Avatars")
 
     def can_update(self, time=None):
+        """
+        Check the user can update its avatar.
+
+        :param time: Minimum time before changing the avatar.
+        :return: True if the user can update its avatar, False otherwise.
+        """
+
         if self.last_update is None:
             return True
 
@@ -189,6 +252,11 @@ class UserAvatar(models.Model):
         return self.last_update.time() + time < now
 
     def update_avatar(self, content_file):
+        """
+        Update user's avatar.
+
+        :param content_file: ContentFile instance.
+        """
         self.picture.save('%i.jpg' % self.pk, content_file)
         self.last_update = timezone.now()
         self.save(update_fields=['picture', 'last_update'])
