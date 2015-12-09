@@ -82,6 +82,8 @@ class SettingsView(View):
         return super(SettingsView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request):
+        log_entries = request.user.log_entries.all().order_by('-id')[:5]
+
         avatarchange_form = AvatarChangeForm(request.user)
 
         if request.user.has_usable_password():
@@ -90,7 +92,8 @@ class SettingsView(View):
             passwordchange_form = SetPasswordForm(request.user)
 
         return render(request, 'user/settings.html', {'passwordchange_form': passwordchange_form,
-                                                      'avatarchange_form': avatarchange_form})
+                                                      'avatarchange_form': avatarchange_form,
+                                                      'log_entries': log_entries})
 
     def post(self, request):
         if request.user.has_usable_password():
@@ -138,5 +141,20 @@ class SettingsView(View):
 
             messages.add_message(request, messages.SUCCESS, _("Successfully downloaded avatar from your Facebook connected account"))
             return redirect('user:settings')
+        elif 'clearlogs' in request.POST:
+            request.user.log_entries.all().delete()
+
+            messages.add_message(request, messages.SUCCESS, _("Successfully cleared all the logs"))
 
         return redirect('user:settings')
+
+
+class LogEntriesView(View):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LogEntriesView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        log_entries = request.user.log_entries.all().order_by('-id')
+
+        return render(request, "user/log_entries.html", {'log_entries': log_entries})
