@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template.context import Context
+from mail.tasks import send_mail
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):
@@ -8,7 +14,7 @@ class UserManager(BaseUserManager):
     UserManager class.
     """
 
-    def _create_user(self, username, email, password, **kwargs):
+    def _create_user(self, username, email, password, send_welcome_email=True, **kwargs):
         now = timezone.now()
 
         if username is None:
@@ -26,6 +32,22 @@ class UserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save()
+
+        if send_welcome_email or not user.is_active:
+            template_plain = get_template("user/mail/welcome.txt")
+            template_html = get_template("user/mail/welcome.html")
+
+            ctx = Context({'the_user': user, 'site_url': settings.SITE_URL})
+
+            content_plain = template_plain.render(ctx)
+            content_html = template_html.render(ctx)
+
+            mail = EmailMultiAlternatives(_("Welcome to the Study!"), content_plain, "no-reply@studyapp.pw", [user.email])
+            mail.attach_alternative(content_html, 'text/html')
+
+            send_mail.apply_async(kwargs={
+                'mail': mail,
+            })
 
         return user
 
