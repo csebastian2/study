@@ -115,6 +115,9 @@ INSTALLED_APPS = (
     # Cal application
     'cal',
 
+    # Mail application
+    'mail',
+
     # ---- Django applications ----
     'django.contrib.admin',
     'django.contrib.auth',
