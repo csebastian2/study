@@ -11,6 +11,20 @@ header#site-head {
   }
 
   .side-left {
+    .menu-button {
+      display: inline-block;
+      background: $color_primary_4;
+      height: 33px;
+      width: auto;
+      clear: both;
+      position: relative;
+      vertical-align: middle;
+      line-height: 33px;
+      padding: 0 12px 0 12px;
+      font-size: 11pt;
+      color: $color_light_0;
+    }
+
     .notifications-button {
       display: inline-block;
       background: $color_primary_4;
@@ -20,6 +34,7 @@ header#site-head {
       clear: both;
       position: relative;
       vertical-align: middle;
+      margin: 0 5px 0 0;
 
       .number {
         display: inline-block;
