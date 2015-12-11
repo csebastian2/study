@@ -1,0 +1,17 @@
+{% extends "core/content.html" %}
+{% load staticfiles i18n %}
+
+{% block site_title %}Study &laquo; {% trans "Organize your education" %}{% endblock %}
+
+{% block site_content %}
+    <div id="site-content" class="page page-padding page-core-about">
+        <div class="container">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                <article class="fullwidth">
+                    <h2 class="page-title">{{ title }}</h2>
+                    <p class="text-center">{{ description }}</p>
+                </article>
+            </div>
+        </div>
+    </div>
+{% endblock %}
