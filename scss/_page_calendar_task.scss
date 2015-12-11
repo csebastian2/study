@@ -1,0 +1,15 @@
+#site-content.page.page-calendar-task {
+  .task-body.markdown {
+    p {
+      line-height: 1.2em;
+    }
+
+    a {
+      color: $color_primary_6;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  }
+}

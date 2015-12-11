@@ -6,7 +6,7 @@
 {% block site_content %}
     <div id="site-content" class="page page-padding page-calendar-task">
         <div class="container">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">{{ task.name }}</h3>
@@ -28,6 +28,10 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <hr>
+                        <div class="task-body markdown">
+                            {{ task.body }}
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <div class="row">
@@ -37,6 +41,7 @@
                             <div class="col-xs-6 text-right">
                                 <form id="task-delete" action="#">
                                     {% csrf_token %}
+                                    <a href="{% url 'calendar:edittask' calendar.pk task.pk %}" class="btn btn-sm btn-primary">{% trans "Edit" %}</a>
                                     <button type="submit" class="btn btn-sm btn-danger">{% trans "Delete" %}</button>
                                 </form>
                             </div>

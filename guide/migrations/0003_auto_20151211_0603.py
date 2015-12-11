@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='article',
             name='body_markup_type',
-            field=models.CharField(max_length=30, default='markdown', choices=[('', '--'), ('markdown', 'markdown')]),
+            field=models.CharField(default='markdown', choices=[('', '--'), ('markdown', 'markdown')], max_length=30),
         ),
     ]

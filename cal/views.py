@@ -154,14 +154,49 @@ class AddTaskView(View):
         return super(AddTaskView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request):
-        form = forms.AddTaskForm(self.calendar_cache, request.user)
+        form = forms.TaskForm(self.calendar_cache, request.user, None)
 
         return render(request, 'cal/add_task.html', {'calendar': self.calendar_cache, 'form': form})
 
     def post(self, request):
-        form = forms.AddTaskForm(self.calendar_cache, request.user, request.POST)
+        form = forms.TaskForm(self.calendar_cache, request.user, None, request.POST)
 
         if not form.is_valid():
             return render(request, 'cal/add_task.html', {'calendar': self.calendar_cache, 'form': form})
 
         return redirect(reverse('calendar:calendar', kwargs={'calendar_id': self.calendar_cache.pk}))
+
+
+class TaskEditView(View):
+    @method_decorator(login_required)
+    def dispatch(self, request, calendar_id, task_id, *args, **kwargs):
+        try:
+            self.calendar_cache = models.Calendar.objects.prefetch_related().get(members=request.user, pk=calendar_id)
+        except models.Calendar.DoesNotExist:
+            return HttpResponseNotFound()
+
+        try:
+            self.task = self.calendar_cache.tasks.get(pk=task_id)
+        except models.Task.DoesNotExist:
+            return HttpResponseNotFound()
+
+        return super(TaskEditView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        form = forms.TaskForm(self.calendar_cache, request.user, self.task)
+
+        return render(request, "cal/edit_task.html", {
+            'task': self.task,
+            'calendar': self.calendar_cache,
+            'form': form,
+        })
+
+    def post(self, request):
+        form = forms.TaskForm(self.calendar_cache, request.user, self.task, request.POST)
+
+        if not form.is_valid():
+            return render(request, 'cal/edit_task.html', {'calendar': self.calendar_cache, 'task': self.task, 'form': form})
+
+        form.task_cache.save()
+
+        return redirect(reverse('calendar:task', kwargs={'calendar_id': self.calendar_cache.pk, 'task_id': self.task.pk}))
