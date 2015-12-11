@@ -1,18 +1,18 @@
 {% extends "core/content.html" %}
 {% load staticfiles i18n %}
 
-{% block site_title %}{% trans "Add task" %} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
+{% block site_title %}{% trans "Edit task" %} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
 
 {% block site_content %}
     <div id="site-content" class="page page-padding page-calendar-addtask">
         <div class="container">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
-                <form action="{% url 'calendar:addtask' calendar.pk %}" method="POST">
+                <form action="{% url 'calendar:edittask' calendar.pk task.pk %}" method="POST">
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">{% trans "Add task to" %} {{ calendar.name }}</h3>
+                            <h3 class="panel-title">{% trans "Edit task " %} {{ task.name }}</h3>
                         </div>
                         <div class="panel-body">
                             {% for field in form %}
@@ -26,10 +26,10 @@
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-xs-6">
-                                    <a href="{% url 'calendar:calendar' calendar.pk %}" class="btn btn-default">{% trans "Back" %}</a>
+                                    <a href="{% url 'calendar:task' calendar.pk task.pk %}" class="btn btn-default">{% trans "Back" %}</a>
                                 </div>
                                 <div class="col-xs-6 text-right">
-                                    <button type="submit" class="btn btn-success">{% trans "Add task" %}</button>
+                                    <button type="submit" class="btn btn-success">{% trans "Save" %}</button>
                                 </div>
                             </div>
                         </div>

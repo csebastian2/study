@@ -24,6 +24,13 @@ form {
       font: 400 11pt/1em $font_content;
     }
 
+    textarea {
+      border-radius: 2px;
+      background: $color_light_2;
+      max-width: 100%;
+
+    }
+
     ul.errorlist {
       margin: 0 0 5px 0;
       padding: 0 0 0 0;
