@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.core.urlresolvers import resolve, Resolver404
+from django.http.response import HttpResponseNotFound
+from django.core.urlresolvers import reverse, resolve, Resolver404
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.views.generic import View
@@ -13,6 +14,7 @@ from .forms import (
     PasswordChangeForm, SetPasswordForm, AvatarChangeForm
 )
 from .tasks import save_avatar
+from . import models
 from social.apps.django_app.default.models import UserSocialAuth
 
 
@@ -158,3 +160,49 @@ class LogEntriesView(View):
         log_entries = request.user.log_entries.all().order_by('-id')
 
         return render(request, "user/log_entries.html", {'log_entries': log_entries})
+
+
+class ActivateAccountView(View):
+    def get(self, request, code):
+        try:
+            code = models.UserCode.objects.get_code(code, type='account_activation')
+        except models.UserCode.DoesNotExist:
+            return render(request, "core/message.html", {'title': _("Code does not exist"), 'description': _("Code may be incorrect, already used or expired. Please check the correctness and try again.")})
+
+        code.set_used(True)
+        the_user = code.user
+        if not the_user.is_active:
+            the_user.is_active = True
+
+        return render(request, "core/message.html", {'title': _("Thank you"), 'description': _("Your account has been successfully activated.")})
+
+
+class NotificationsView(View):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(NotificationsView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        notifications = None
+
+        try:
+            notifications = models.UserNotification.objects.filter(user=request.user).order_by('read', '-id')[:20]
+        except models.UserNotification.DoesNotExist:
+            pass
+
+        return render(request, "user/notifications.html", {'notifications': notifications})
+
+    def post(self, request, notification_id):
+        try:
+            notification = models.UserNotification.objects.get(user=request.user, pk=notification_id)
+        except models.UserNotification.DoesNotExist:
+            return HttpResponseNotFound()
+
+        notification.set_read(True)
+
+        if notification.url:
+            url = notification.url
+        else:
+            url = reverse('user:notifications')
+
+        return redirect(url)

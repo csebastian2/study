@@ -1,15 +1,39 @@
 #site-content.page.page-core-about {
-  h2.page-title {
-    text-align: center;
-    font: 700 32pt/1.15em $font-content;
-    color: $color_primary_6;
-    margin: 0 0 50px 0;
-  }
+  article {
+    margin: 0 0 80px 0;
 
-  p {
-    font-size: 13pt;
-    color: $color_dark_6;
-    line-height: 1.75em;
-    margin: 0 0 20px 0;
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h2.page-title {
+      text-align: center;
+      font: 700 32pt/1.15em $font-content;
+      color: $color_primary_6;
+      margin: 0 0 50px 0;
+    }
+
+    p {
+      font-size: 13pt;
+      color: $color_dark_6;
+      line-height: 1.75em;
+      margin: 0 0 20px 0;
+    }
+
+    a {
+      font-weight: 700;
+      color: $color_primary_6;
+    }
+
+    ul {
+      padding: 0 0 0 30px;
+      margin: 0 0 30px 0;
+      list-style-type: square;
+
+      li {
+        line-height: 2em;
+        color: $color_primary_6;
+      }
+    }
   }
 }

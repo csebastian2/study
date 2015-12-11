@@ -8,6 +8,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
+                    {% if not user.is_active %}
+                        <div class="alert alert-info">
+                            <p>{% trans "Your account hasn't been activated yet. Activate your account by clicking on the link inside the message we've sent to your email address." %}</p>
+                            <p>{% trans "Message lost? You can" %} <a class="alert-link" href="#">{% trans "resend activation email" %}</a></p>
+                        </div>
+                    {% endif %}
                     <div id="my-calendars">
                         <h2 class="page-title">{% trans "My Calendars" %}</h2>
                         <div id="my-calendars-grid" data-columns>
@@ -20,7 +26,7 @@
                             {% endfor %}
                             <a href="{% url 'calendar:new' %}">
                                 <div class="calendar">
-                                    <span><i class="fa fa-calendar"></i>{% trans "Create new..." %}</span>
+                                    <span><i class="fa fa-plus"></i>{% trans "Create new..." %}</span>
                                 </div>
                             </a>
                         </div>

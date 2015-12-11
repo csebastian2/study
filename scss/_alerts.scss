@@ -1,0 +1,28 @@
+@mixin set-alert-properties($color) {
+  background-color: lighten($color, 35%);
+  border-color: lighten($color, 25%);
+  color: darken($color, 15%);
+
+  a.alert-link {
+    color: darken($color, 15%);
+  }
+}
+
+.alert {
+  border-radius: 4px;
+  padding: 20px;
+  font: 400 1em/1.3em $font_content;
+
+  $colors: (
+    'info': $color_bootstrap_info,
+    'warning': $color_bootstrap_warning,
+    'danger': $color_bootstrap_danger,
+    'success': $color_bootstrap_success
+  );
+
+  @each $type, $color in $colors {
+    &.alert-#{$type} {
+      @include set-alert-properties($color);
+    }
+  }
+}

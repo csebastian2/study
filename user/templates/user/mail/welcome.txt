@@ -1,5 +1,5 @@
 {% load i18n %}
 
 {% trans "Hello, " %}{{ the_user.username }}!
-{% trans "We are happy that you are with us. To finish the registration process you must activate your account using the button below:" %}
-{{ site_url }}
+{% trans "We are happy that you are with us. To finish the registration process you must activate your account using the link below:" %}
+{{ site_url }}{% url 'user:activate' activation_code.code %}

@@ -6,6 +6,13 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:locale" content="pl_PL">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Study - Zorganizuj swoją naukę">
+        <meta property="og:description" content="Study to serwis, który pomoże Ci organizować szkolne i studenckie życie. Już nigdy nie zapomnisz o nadchodzących egzaminach i innych ważnych dla Ciebie datach. Zaproś swoich znajomych i dzielcie się notatkami!">
+        <meta property="og:url" content="http://studyapp.pw/">
+        <meta property="og:site_name" content="Study">
+        <meta property="og:image" content="http://studyapp.pw/static/images/symbol.png" />
         <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "css/hint.min.css" %}" type="text/css">
@@ -14,7 +21,7 @@
         <link rel="stylesheet" href="{% static "css/main.min.css" %}" type="text/css">
         {% block head_section %}{% endblock %}
         <title>{% block site_title %}Study &laquo; {% trans "Organize your education" %}{% endblock %}</title>
-        <script>
+        <script type="application/javascript">
             WebFontConfig = {
                 google: {
                     families: [
@@ -30,7 +37,7 @@
             wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
             s.parentNode.insertBefore(wf, s);
             })(document);
-    </script>
+        </script>
     </head>
     <body>
         {% block body_section %}{% endblock %}
@@ -48,7 +55,7 @@
                         message: "{{ message }}"
                     },{
                         type: "{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}",
-                        delay: 3000,
+                        delay: 4000,
                         timer: 1000,
                         placement: {
                             from: "top",
@@ -75,6 +82,15 @@
             $.ajaxSetup({
                 headers: {"X-CSRFToken": getCookie("csrftoken")}
             });
+        </script>
+        <script type="application/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-71278171-1', 'auto');
+            ga('send', 'pageview');
         </script>
         {% block additional_scripts %}{% endblock %}
     </body>

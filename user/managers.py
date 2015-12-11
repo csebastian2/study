@@ -5,8 +5,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template.context import Context
-from mail.tasks import send_mail
 from django.conf import settings
+from django.db.models import Q
+from mail.tasks import send_mail
 
 
 class UserManager(BaseUserManager):
@@ -34,10 +35,17 @@ class UserManager(BaseUserManager):
         user.save()
 
         if send_welcome_email or not user.is_active:
+            from .models import UserCode
+            activation_code = UserCode.objects.generate_code(user, 'account_activation')
+
             template_plain = get_template("user/mail/welcome.txt")
             template_html = get_template("user/mail/welcome.html")
 
-            ctx = Context({'the_user': user, 'site_url': settings.SITE_URL})
+            ctx = Context({
+                'the_user': user,
+                'site_url': settings.SITE_URL,
+                'activation_code': activation_code
+            })
 
             content_plain = template_plain.render(ctx)
             content_html = template_html.render(ctx)
@@ -88,6 +96,7 @@ class UserManager(BaseUserManager):
 
         kwargs.setdefault('is_staff', True)
         kwargs.setdefault('is_superuser', True)
+        kwargs.setdefault('is_active', True)
 
         if kwargs.get('is_staff') is False:
             raise ValueError("Superuser must have to set is_staff to True")
@@ -130,3 +139,91 @@ class UserLogEntryManager(models.Manager):
 
         log_entry.save()
         return log_entry
+
+
+class UserCodeManager(models.Manager):
+    def generate_code(self, user, type, expiration_date=None, **kwargs):
+        """
+        Generate a code to the specified user.
+
+        :param user: An user's instance.
+        :type user: UserProfile
+        :param type: A type of code.
+        :type type: str
+        :param expiration_date: Date of code expiration. If None the code will never expire.
+        :type expiration_date: datetime
+        :param kwargs: An additional code kwargs.
+        :return: Instance of a UserCode
+        :rtype UserCode
+        """
+
+        if user is None:
+            raise ValueError("User must be set")
+
+        if type is None:
+            raise ValueError("Type must be set")
+
+        code = self.model(
+            user=user,
+            type=type,
+            expiration_date=expiration_date,
+            **kwargs
+        )
+
+        code.save()
+        return code
+
+    def get_code(self, code, type, **kwargs):
+        """
+        Get the UserCode instance.
+
+        :param code: A code.
+        :param type: A type.
+        :param user: An user's instance.
+        :return: Instance of a UserCode
+        :rtype UserCode
+        """
+
+        if code is None:
+            raise ValueError("Code must be set")
+
+        if type is None:
+            raise ValueError("Type must be set")
+
+        return self.get(
+            Q(expiration_date=None) | Q(expiration_date__gte=timezone.now()),
+            is_used=False,
+            code=code,
+            type=type,
+            **kwargs
+        )
+
+
+class UserNotificationManager(models.Manager):
+    def add_notification(self, user, message, **kwargs):
+        """
+        Add notification to the specified user.
+
+        :param user: An user's instance
+        :type user: UserProfile
+        :param message: A notification message.
+        :type message: str
+        :param kwargs: An additional notification kwargs.
+        :return: A UserNotification instance
+        :rtype: UserNotification
+        """
+
+        if user is None:
+            raise ValueError("User must be set")
+
+        if message is None:
+            raise ValueError("Message must be set")
+
+        notification = self.model(
+            user=user,
+            message=message,
+            **kwargs
+        )
+
+        notification.save()
+        return notification
