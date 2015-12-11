@@ -23,6 +23,25 @@
                                     <th class="col-xs-4">{% trans "Email address" %}</th>
                                     <td class="col-xs-8 text-right">{{ user.email }}</td>
                                 </tr>
+                                {% if user.is_staff %}
+                                    <tr>
+                                        <td colspan="2" class="col-xs-12 text-center">You are a staff member <i class="fa fa-heart"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col-xs-4">{% trans "Groups" %}</th>
+                                        <td class="col-xs-8 text-right">
+                                            {% with groups=user.groups.all %}
+                                                {% if groups %}
+                                                    {% for group in user.groups.all %}
+                                                        <span class="label label-success">{{ group }}</span>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <i>You are not a member of any group</i>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
