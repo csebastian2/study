@@ -13,6 +13,9 @@ urlpatterns = [
     # Cal application
     url(r'^calendar/', include('cal.urls', namespace='calendar')),
 
+    # Guide application
+    url(r'^guide/', include('guide.urls', namespace='guide')),
+
     # Django admin panel
     url(r'^admin/', include(admin.site.urls)),
 

@@ -1,0 +1,37 @@
+{% extends "core/content.html" %}
+{% load staticfiles i18n %}
+
+{% block site_title %}{% trans "Guide" %} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
+
+{% block site_content %}
+    <div id="site-content" class="page page-padding page-guide-index">
+        <div class="container">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                {% for article in articles %}
+                    <article class="fullwidth">
+                        <header class="article-header">
+                            <a class="article-title" href="{% url 'guide:article' article.slug article.pk %}">
+                                <h2>{{ article.title }}</h2>
+                            </a>
+                            <div class="article-meta">
+                                <li>{{ article.creation_date|date:"d E Y" }}&nbsp;{% trans "by" %}&nbsp;{{ article.author.get_full_name }}</li>
+                                {% with tags=article.tags.all %}
+                                    {% if tags %}
+                                        <li>
+                                            {% for tag in tags %}
+                                                <a href="{% url 'guide:index' tag.slug %}"><span class="tag tag-{{ tag.color }}">{{ tag.name }}</span></a>
+                                            {% endfor %}
+                                        </li>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                        </header>
+                        <div class="article-body">
+                            {{ article.body.rendered|safe }}
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

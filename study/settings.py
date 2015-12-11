@@ -119,6 +119,9 @@ INSTALLED_APPS = (
     # Mail application
     'mail',
 
+    # Guide application
+    'guide',
+
     # ---- Django applications ----
     'django.contrib.admin',
     'django.contrib.auth',
