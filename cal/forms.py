@@ -61,7 +61,7 @@ class AddMemberForm(forms.Form):
         return self.cleaned_data
 
 
-class AddTaskForm(forms.Form):
+class TaskForm(forms.Form):
     name = forms.CharField(
         label=_("Name"),
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _("Name")}),
@@ -74,19 +74,45 @@ class AddTaskForm(forms.Form):
         label=_("End date"),
         widget=forms.DateTimeInput(attrs={'class': 'form-control date-picker', 'placeholder': _("End date")}),
     )
+    body = forms.CharField(
+        label=_("Description (Markdown enabled)"),
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': _("Description")}),
+    )
 
-    def __init__(self, calendar, user, *args, **kwargs):
+    def __init__(self, calendar, user, task=None, *args, **kwargs):
         self.calendar = calendar
         self.user = user
-        self.task_cache = None
-        super(AddTaskForm, self).__init__(*args, **kwargs)
+        self.task_cache = task
+        super(TaskForm, self).__init__(*args, **kwargs)
+
+        if task is not None:
+            self.fields['name'].initial = task.name
+            self.fields['date_start'].initial = task.date_start
+            self.fields['date_end'].initial = task.date_end
+            self.fields['body'].initial = task.body.raw
+
 
     def clean(self):
-        super(AddTaskForm, self).clean()
+        super(TaskForm, self).clean()
 
         name = self.cleaned_data.get('name')
         date_start = self.cleaned_data.get('date_start')
         date_end = self.cleaned_data.get('date_end')
+        body = self.cleaned_data.get('body')
 
-        if name and date_start and date_end:
-            self.task_cache = models.Task.objects.add_task(self.user, self.calendar, name, date_start, date_end)
+        if name and date_start and date_end and body:
+            if self.task_cache is None:
+                self.task_cache = models.Task.objects.add_task(
+                        self.user,
+                        self.calendar,
+                        name,
+                        date_start,
+                        date_end,
+                        body=body,
+                        description=body
+                )
+            else:
+                self.task_cache.name = name
+                self.task_cache.date_start = date_start
+                self.task_cache.date_end = date_end
+                self.task_cache.body = body
