@@ -10,7 +10,38 @@ header#site-head {
     line-height: 44px;
   }
 
+  ul.menu {
+    list-style-type: none;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    white-space: nowrap;
+
+    li {
+      display: inline-block;
+      line-height: 44px;
+      margin: 0 10px 0 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      a {
+        color: $color_light_2;
+        font-weight: 500;
+        text-decoration: none;
+
+        &:hover {
+          color: $color_primary_1;
+        }
+      }
+    }
+  }
+
   .side-left {
+    ul.menu {
+      float: left;
+    }
+
     .menu-button {
       display: inline-block;
       background: $color_primary_4;
@@ -73,10 +104,25 @@ header#site-head {
     }
   }
 
+  .side-center {
+    @media (min-width: 768px) {
+      text-align: center;
+    }
+  }
+
   .side-right {
+    ul.menu {
+      float: right;
+    }
+
     .dropdown {
+      float: right;
+      margin-left: 20px;
+
       .dropdown-toggle {
         span.hint--left {
+          position: relative;
+
           &:before {
             border-left-color: $color_dark_2;
           }
@@ -86,6 +132,25 @@ header#site-head {
             color: $color_light_0;
             text-shadow: none;
             box-shadow: none;
+          }
+
+          span.notifications-badge {
+            position: absolute;
+            display: block;
+            width: 16px;
+            height: 16px;
+            background: $color_bootstrap_danger;
+            bottom: 0;
+            right: 0;
+            z-index: 9;
+            border-radius: 16px;
+            font-size: 8pt;
+            font-weight: 700;
+            color: $color_light_0;
+            line-height: 16px;
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
           }
         }
       }
@@ -117,33 +182,13 @@ header#site-head {
             &:hover {
               background: $color_primary_2;
             }
-          }
-        }
-      }
-    }
 
-    ul.menu {
-      list-style-type: none;
-      float: right;
-      margin: 0 0 0 0;
-      padding: 0 0 0 0;
-
-      li {
-        display: inline-block;
-        line-height: 44px;
-        margin: 0 10px 0 10px;
-
-        &:last-child {
-          margin-right: 0;
-        }
-
-        a {
-          color: $color_light_2;
-          font-weight: 500;
-          text-decoration: none;
-
-          &:hover {
-            color: $color_primary_1;
+            span.badge {
+              padding: 3px 6px;
+              background: $color_dark_1;
+              font-size: 8pt;
+              font-weight: 700;
+            }
           }
         }
       }
