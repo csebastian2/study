@@ -45,6 +45,15 @@ class UserAvatarAdmin(admin.ModelAdmin):
     show_full_result_count = False
 
 
+@admin.register(models.UserCode)
+class UserCodeAdmin(admin.ModelAdmin):
+    fields = ('user', 'type', 'expiration_date', 'is_used')
+    ordering = ('-id',)
+    list_display = ('user', 'type', 'code', 'creation_date', 'expiration_date', 'is_used')
+    list_per_page = 25
+    show_full_result_count = True
+
+
 @admin.register(models.UserNotification)
 class UserNotificationAdmin(admin.ModelAdmin):
     fields = ('user', 'message', 'url', 'read', 'creation_date')

@@ -1,3 +1,4 @@
+import string
 from django.db import models
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
@@ -5,6 +6,7 @@ from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.sessions.models import Session
 from django.utils import timezone
+from study.utils import generate_random_string
 from . import managers
 from . import storage
 
@@ -258,6 +260,91 @@ class UserAvatar(models.Model):
         self.picture.save('%i.jpg' % self.pk, content_file)
         self.last_update = timezone.now()
         self.save(update_fields=['picture', 'last_update'])
+
+
+class UserCode(models.Model):
+    """
+    UserCodes class
+
+    Every code is disposable.
+    """
+
+    user = models.ForeignKey(
+        UserProfile,
+        verbose_name=_("User"),
+        related_name='codes',
+        related_query_name='code',
+        blank=False,
+        null=False,
+    )
+    code = models.CharField(
+        _("Code"),
+        max_length=64,
+        blank=False,
+        null=False,
+    )
+    type = models.CharField(
+        _("Type"),
+        max_length=32,
+        blank=False,
+        null=False,
+        choices=(
+            ('account_activation', _("Account activation")),
+            ('password_reset', _("Password reset")),
+        )
+    )
+    creation_date = models.DateTimeField(
+        _("Creation date"),
+        auto_now_add=True,
+        blank=False,
+        null=False,
+    )
+    expiration_date = models.DateTimeField(
+        _("Expiration date"),
+        blank=True,
+        null=True,
+    )
+    is_used = models.BooleanField(
+        _("Is used?"),
+        default=False,
+        blank=False,
+        null=False,
+    )
+
+    objects = managers.UserCodeManager()
+
+    class Meta:
+        verbose_name = _("User code")
+        verbose_name_plural = _("User codes")
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.code = generate_random_string(32, chars=string.ascii_letters + string.digits)
+
+        return super(UserCode, self).save(*args, **kwargs)
+
+    def is_usable(self):
+        """
+        Returns if the code is usable. Usable means the code has not been expired and used before.
+        This method supports the timezones.
+
+        :return: True if code is usable, False otherwise
+        :rtype bool
+        """
+
+        if self.is_used:
+            return False
+
+        return self.expiration_date is not None and self.expiration_date < timezone.now()
+
+    def set_used(self, is_used):
+        """
+        Set the code is used and save.
+
+        :param is_used: Is the code used?
+        """
+        self.is_used = is_used
+        self.save(update_fields=['is_used'])
 
 
 class UserNotification(models.Model):

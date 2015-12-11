@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.core.urlresolvers import resolve, Resolver404
 from django.http.response import HttpResponseNotFound
 from django.core.urlresolvers import reverse, resolve, Resolver404
 from django.contrib.auth import login, logout
@@ -161,6 +160,21 @@ class LogEntriesView(View):
         log_entries = request.user.log_entries.all().order_by('-id')
 
         return render(request, "user/log_entries.html", {'log_entries': log_entries})
+
+
+class ActivateAccountView(View):
+    def get(self, request, code):
+        try:
+            code = models.UserCode.objects.get_code(code, type='account_activation')
+        except models.UserCode.DoesNotExist:
+            return render(request, "core/message.html", {'title': _("Code does not exist"), 'description': _("Code may be incorrect, already used or expired. Please check the correctness and try again.")})
+
+        code.set_used(True)
+        the_user = code.user
+        if not the_user.is_active:
+            the_user.is_active = True
+
+        return render(request, "core/message.html", {'title': _("Thank you"), 'description': _("Your account has been successfully activated.")})
 
 
 class NotificationsView(View):

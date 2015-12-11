@@ -6,6 +6,6 @@
     <h4 style="margin: 10px 0 15px 0; padding: 0 0 0 0; font-size: 16pt;">{% trans "Hello, " %}{{ the_user.username }}!</h4>
     <p>{% trans "We are happy that you are with us. To finish the registration process you must activate your account using the button below:" %}</p>
     <div style="text-align: center">
-        <a style="padding: 12px 18px; background: #10b478; color: #ffffff; font-size: 11pt; font-weight: bold; margin: 15px 0 15px 0; border-radius: 5px;" href="{{ site_url }}">{% trans "Activate your account" %}</a>
+        <a style="text-decoration: none; padding: 12px 18px; background: #10b478; color: #ffffff; font-size: 11pt; font-weight: bold; margin: 15px 0 15px 0; border-radius: 5px; margin-bottom: 15px;" href="{{ site_url }}{% url 'user:activate' activation_code.code %}">{% trans "Activate your account" %}</a>
     </div>
 {% endblock %}
