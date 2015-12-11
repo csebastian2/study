@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="{% static "css/main.min.css" %}" type="text/css">
         {% block head_section %}{% endblock %}
         <title>{% block site_title %}Study &laquo; {% trans "Organize your education" %}{% endblock %}</title>
-        <script>
+        <script type="application/javascript">
             WebFontConfig = {
                 google: {
                     families: [
@@ -37,7 +37,7 @@
             wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
             s.parentNode.insertBefore(wf, s);
             })(document);
-    </script>
+        </script>
     </head>
     <body>
         {% block body_section %}{% endblock %}
