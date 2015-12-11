@@ -192,7 +192,13 @@ class NotificationsView(View):
 
         return render(request, "user/notifications.html", {'notifications': notifications})
 
-    def post(self, request, notification_id):
+
+class NotificationView(View):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(NotificationView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, notification_id):
         try:
             notification = models.UserNotification.objects.get(user=request.user, pk=notification_id)
         except models.UserNotification.DoesNotExist:

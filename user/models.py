@@ -109,6 +109,17 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         log_entry = UserLogEntry.objects.add_entry(self, message, **kwargs)
         return log_entry
 
+    def add_notification(self, message, **kwargs):
+        """
+        Add notification to the user.
+
+        :param message: The message.
+        :param kwargs: An additional notification kwargs
+        :return: UserNotification instance
+        """
+
+        return UserNotification.objects.add_notification(self, message, **kwargs)
+
 
 class UserLogEntry(models.Model):
     """

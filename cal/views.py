@@ -5,7 +5,7 @@ from django.http.response import HttpResponseNotFound, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ugettext as __
 from cal import forms, models
 
 
@@ -68,6 +68,7 @@ class AddMemberView(View):
 
         self.calendar_cache.members.add(form.user_cache)
         messages.add_message(request, messages.SUCCESS, _("User has successfully added as a member of ") + self.calendar_cache.name)
+        form.user_cache.add_notification(__("You have been added to calendar") + ' ' + self.calendar_cache.name + ' ' + __("by") + ' ' + request.user.get_full_name(), url=reverse('calendar:calendar', kwargs={'calendar_id': self.calendar_cache.pk}))
 
         return redirect(reverse('calendar:calendar', kwargs={'calendar_id': self.calendar_cache.pk}))
 
