@@ -4,6 +4,7 @@ try:
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
     from yaml import Loader, Dumper
+import markdown
 from study.utils import generate_random_string
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -118,6 +119,9 @@ INSTALLED_APPS = (
 
     # Mail application
     'mail',
+
+    # Guide application
+    'guide',
 
     # ---- Django applications ----
     'django.contrib.admin',
@@ -451,3 +455,14 @@ SOCIAL_AUTH_INACTIVE_USER_URL = '/user/login/inactive/'
 # ###########################################
 
 CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
+
+
+# ###########################################
+# #+---------------------------------------+#
+# #|          django-markupfield           |#
+# #+---------------------------------------+#
+# ###########################################
+
+MARKUP_FIELD_TYPES = (
+    ('markdown', markdown.markdown),
+)

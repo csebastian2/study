@@ -22,7 +22,7 @@
                             {% endfor %}
                             <button type="submit" class="btn btn-success btn-block">{% trans "Sign up" %}</button>
                             <hr>
-                            <a href="#" class="btn btn-primary btn-block">{% trans "Sign up with Facebook" %}</a>
+                            <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-primary btn-block">{% trans "Sign up with Facebook" %}</a>
                         </div>
                     </div>
                 </form>

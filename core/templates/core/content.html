@@ -10,7 +10,7 @@
                         <div class="col-xs-4 col-sm-4 hidden-xs">
                             <div class="side-left">
                                 <ul class="menu hidden-xs">
-                                    <li role="presentation"><a href="{% url 'user:login' %}">{% trans "Guide" %}</a></li>
+                                    <li role="presentation"><a href="{% url 'guide:index' %}">{% trans "Guide" %}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -50,11 +50,11 @@
                                         </ul>
                                     </div>
                                     <ul class="menu visible-xs">
-                                        <li role="presentation"><a href="{% url 'user:login' %}">{% trans "Guide" %}</a></li>
+                                        <li role="presentation"><a href="{% url 'guide:index' %}">{% trans "Guide" %}</a></li>
                                     </ul>
                                 {% else %}
                                     <ul class="menu">
-                                        <li role="presentation"><a href="{% url 'user:login' %}">{% trans "Guide" %}</a></li>
+                                        <li role="presentation"><a href="{% url 'guide:index' %}">{% trans "Guide" %}</a></li>
                                         <li role="presentation"><a href="{% url 'user:login' %}">{% trans "Sign in" %}</a></li>
                                         <li role="presentation"><a href="{% url 'user:register' %}">{% trans "Sign up" %}</a></li>
                                     </ul>

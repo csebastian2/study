@@ -1,0 +1,20 @@
+#site-content.page.page-user-notifications {
+  .panel {
+    .panel-body {
+      a {
+        text-decoration: none;
+      }
+
+      p.notification-message {
+        font-size: 12pt;
+        color: $color_dark_6;
+        margin: 0 0 10px 0;
+      }
+
+      p.notification-date {
+        margin: 0 0 0 0;
+        color: lighten($color_dark_6, 25%);
+      }
+    }
+  }
+}

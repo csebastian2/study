@@ -25,6 +25,10 @@ This will be converted into CSS automatically.
 
 // User
 @import "page_user_settings";
+@import "page_user_notifications";
 
 // Calendar
 @import "page_calendar_calendar";
+
+// Guide
+@import "page_guide_index";
