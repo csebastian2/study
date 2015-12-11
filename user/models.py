@@ -258,3 +258,57 @@ class UserAvatar(models.Model):
         self.picture.save('%i.jpg' % self.pk, content_file)
         self.last_update = timezone.now()
         self.save(update_fields=['picture', 'last_update'])
+
+
+class UserNotification(models.Model):
+    """
+    UserNotification class
+    """
+
+    user = models.ForeignKey(
+        UserProfile,
+        verbose_name=_("User"),
+        related_name='notifications',
+        related_query_name='notification',
+        blank=False,
+        null=False,
+    )
+    message = models.CharField(
+        _("Message"),
+        max_length=255,
+        blank=False,
+        null=False,
+    )
+    url = models.URLField(
+        _("URL"),
+        blank=True,
+        null=True,
+    )
+    read = models.BooleanField(
+        _("Read"),
+        default=False,
+        blank=False,
+        null=False,
+    )
+    creation_date = models.DateTimeField(
+        _("Creation date"),
+        auto_now_add=True,
+        blank=False,
+        null=False,
+    )
+
+    objects = managers.UserNotificationManager()
+
+    class Meta:
+        verbose_name = _("Notification")
+        verbose_name_plural = _("Notifications")
+
+    def set_read(self, read):
+        """
+        Set the notification read status and save.
+
+        :param read: Is the notification read?
+        :type read: bool
+        """
+        self.read = read
+        self.save(update_fields=['read'])

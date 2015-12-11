@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'^register/$', views.RegisterView.as_view(), name='register'),
     url(r'^settings/$', views.SettingsView.as_view(), name='settings'),
     url(r'^settings/logs', views.LogEntriesView.as_view(), name='logs'),
+    url(r'^notifications/$', views.NotificationsView.as_view(), name='notifications'),
+    url(r'^notifications/(?P<notification_id>[\d]+)/$', views.NotificationsView.as_view(), name='notifications'),
 ]

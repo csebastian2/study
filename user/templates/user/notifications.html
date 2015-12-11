@@ -1,0 +1,36 @@
+{% extends "core/content.html" %}
+{% load staticfiles i18n %}
+
+{% block site_title %}{% trans "Notifications" %} - Study &laquo; {% trans "Organize your education" %}{% endblock %}
+
+{% block site_content %}
+    <div id="site-content" class="page page-padding page-user-log-entries">
+        <div class="container">
+            <h2 class="page-title">{% trans "Notifications" %}</h2>
+            <div class="row">
+                <div class="col-xs-12">
+                    {% if notifications %}
+                        {% for notification in notifications %}
+                            <a href="{% url "user:notifications" notification.pk %}">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        {% if not notification.read %}
+                                            <p><strong>{{ notification.message }}</strong></p>
+                                        {% else %}
+                                            <p>{{ notification.message }}</p>
+                                        {% endif %}
+                                        <p><strong><small>{{ notification.creation_date }}</small></strong></p>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-info">
+                            {% trans "No notifications to show." %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

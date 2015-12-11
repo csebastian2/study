@@ -130,3 +130,33 @@ class UserLogEntryManager(models.Manager):
 
         log_entry.save()
         return log_entry
+
+
+class UserNotificationManager(models.Manager):
+    def add_notification(self, user, message, **kwargs):
+        """
+        Add notification to the specified user.
+
+        :param user: An user's instance
+        :type user: UserProfile
+        :param message: A notification message.
+        :type message: str
+        :param kwargs: An additional notification kwargs.
+        :return: A UserNotification instance
+        :rtype: UserNotification
+        """
+
+        if user is None:
+            raise ValueError("User must be set")
+
+        if message is None:
+            raise ValueError("Message must be set")
+
+        notification = self.model(
+            user=user,
+            message=message,
+            **kwargs
+        )
+
+        notification.save()
+        return notification

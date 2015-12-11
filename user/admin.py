@@ -43,3 +43,12 @@ class UserAvatarAdmin(admin.ModelAdmin):
     list_display = ('user', 'last_update')
     list_per_page = 25
     show_full_result_count = False
+
+
+@admin.register(models.UserNotification)
+class UserNotificationAdmin(admin.ModelAdmin):
+    fields = ('user', 'message', 'url', 'read', 'creation_date')
+    ordering = ('-id',)
+    list_display = ('user', 'message', 'read', 'creation_date')
+    list_per_page = 25
+    show_full_result_count = False
